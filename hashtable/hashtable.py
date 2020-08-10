@@ -1,8 +1,4 @@
 
-
-import inspect
-
-
 class HashTableEntry:
     """
     Linked List hash table key/value pair
@@ -103,6 +99,7 @@ class HashTable:
         # Your code here
 
         self.capacity = capacity
+        self.item_count = 0
         self.hash_table = [None] * capacity
 
         pass
@@ -165,6 +162,7 @@ class HashTable:
 
         Implement this.
         """
+        self.item_count += 1
 
         # get the hash Index of where to save the Linked List
         index = self.hash_index(key)
@@ -218,6 +216,8 @@ class HashTable:
 
         Implement this.
         """
+        self.item_count += 1
+
         index = self.hash_index(key)
 
         if(self.hash_table[index] == None):
@@ -238,6 +238,25 @@ class HashTable:
 
         Implement this.
         """
+        all_key_value = []
+
+        for i in range(len(self.hash_table)):
+
+            head = self.hash_table[i]
+
+            while head:
+                all_key_value.append((head.key, head.value))
+                head = head.next
+
+        self.capacity = new_capacity
+        self.hash_table = [None] * new_capacity
+
+        for i in range(len(all_key_value)):
+            index = self.hash_index(all_key_value[i][0])
+            if index:
+                self.put(all_key_value[i][0], all_key_value[i][1])
+        del all_key_value
+
         # Your code here
 
 
