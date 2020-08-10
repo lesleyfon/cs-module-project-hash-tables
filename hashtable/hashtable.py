@@ -71,12 +71,15 @@ class LinkedList:
         linklist = self.head
         linklist_copy = self.head
 
-        while linklist:
+        if linklist.key == key:
+            self.head = linklist.next
+            return linklist
+        while linklist is not None:
 
             if linklist.key == key:
-                linklist_copy = linklist.next
+                linklist_copy.next = linklist.next
                 self.head = linklist_copy
-                return [1, "Node Deleted"]
+                return [1, "Node Deleted", key]
 
             linklist_copy = linklist
             linklist = linklist.next
@@ -205,7 +208,6 @@ class HashTable:
 
             li = LinkedList()
             li.head = hash_table_li
-
             return li.find(key)[2]
 
     def delete(self, key):
@@ -217,12 +219,17 @@ class HashTable:
         Implement this.
         """
         index = self.hash_index(key)
-        if(index == None):
+
+        if(self.hash_table[index] == None):
             print("Key is not found")
         else:
-            self.hash_table[index] = None
+            hash_table_li = self.hash_table[index]
 
-        # Your code here
+            li = LinkedList()
+            li.head = hash_table_li
+
+            li.delete_node(key)
+            self.hash_table[index] = li.head
 
     def resize(self, new_capacity):
         """
