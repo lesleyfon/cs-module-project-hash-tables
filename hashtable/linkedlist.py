@@ -95,9 +95,6 @@ class LinkedList:
         return [0, 'No node to delete']
 
 
-linklist = LinkedList()
-
-
 # def test_contains():
 #     linklist.insert_node(HashTableEntry(1, "Hello"))
 #     linklist.insert_node(HashTableEntry(2, "World"))

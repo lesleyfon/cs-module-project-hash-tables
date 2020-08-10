@@ -1,3 +1,8 @@
+
+
+import inspect
+
+
 class HashTableEntry:
     """
     Linked List hash table key/value pair
@@ -7,6 +12,76 @@ class HashTableEntry:
         self.key = key
         self.value = value
         self.next = None
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def __str__(self):
+        return 'STRING METHOD'
+
+    def insert_node(self, node):
+
+        if self.head == None:
+            self.head = node
+        else:
+            node_exist = self.find(node.key)
+
+            if node_exist[0] == False:
+
+                node.next = self.head
+                self.head = node
+
+            else:
+                self.update_node(node.key, node.value)
+
+    def find(self, key):
+
+        if self.head == None:
+            return [False, None, None]
+
+        node = self.head
+
+        while node != None:
+
+            if node.key == key:
+                return[True, node.key, node.value]
+            else:
+                node = node.next
+
+        return [False, None, None]
+
+    def update_node(self, key, value):
+
+        node = self.head
+
+        while node:
+
+            if node.key == key:
+                node.value = value
+
+            node = node.next
+
+    def delete_node(self, key):
+
+        if self.head == None:
+            return "No Node in the Linked List"
+
+        linklist = self.head
+        linklist_copy = self.head
+
+        while linklist:
+
+            if linklist.key == key:
+                linklist_copy = linklist.next
+                self.head = linklist_copy
+                return [1, "Node Deleted"]
+
+            linklist_copy = linklist
+            linklist = linklist.next
+
+        return [0, 'No node to delete']
 
 
 # Hash table can't have fewer than this many slots
@@ -87,10 +162,51 @@ class HashTable:
 
         Implement this.
         """
-        index = self.hash_index(key)
-        self.hash_table[index] = value
 
-        # Your code here
+        # get the hash Index of where to save the Linked List
+        index = self.hash_index(key)
+        '''
+            1. Hash abd get the index
+            2. Check is its empty, then we create a node and add it to the head
+            3. If its not empty"
+                - Retrive the linked list and save it to a variable
+                - create a new instance of the linked list
+                - assing the node linked list variable to the head of the newly created linked list
+                - call the insert method and pass in the key and value
+        '''
+
+        if self.hash_table[index] == None:
+
+            self.hash_table[index] = HashTableEntry(key, value)
+        else:
+
+            hash_table_li = self.hash_table[index]
+
+            li = LinkedList()
+            li.head = hash_table_li
+            li.insert_node(HashTableEntry(key, value))
+
+            self.hash_table[index] = li.head
+
+    def get(self, key):
+        """
+        Retrieve the value stored with the given key.
+
+        Returns None if the key is not found.
+
+        Implement this.
+        """
+
+        index = self.hash_index(key)
+        if(index == None):
+            return None
+        else:
+            hash_table_li = self.hash_table[index]
+
+            li = LinkedList()
+            li.head = hash_table_li
+
+            return li.find(key)[2]
 
     def delete(self, key):
         """
@@ -105,22 +221,8 @@ class HashTable:
             print("Key is not found")
         else:
             self.hash_table[index] = None
+
         # Your code here
-
-    def get(self, key):
-        """
-        Retrieve the value stored with the given key.
-
-        Returns None if the key is not found.
-
-        Implement this.
-        """
-        index = self.hash_index(key)
-
-        if(index == None):
-            return None
-        else:
-            return self.hash_table[index]
 
     def resize(self, new_capacity):
         """
@@ -147,9 +249,6 @@ if __name__ == "__main__":
     ht.put("line_10", "Long time the manxome foe he sought--")
     ht.put("line_11", "So rested he by the Tumtum tree")
     ht.put("line_12", "And stood awhile in thought.")
-
-    print("")
-
     # Test storing beyond capacity
     for i in range(1, 13):
         print(ht.get(f"line_{i}"))
