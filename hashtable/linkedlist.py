@@ -16,7 +16,7 @@ class LinkedList:
     def insert_node(self, node):
         '''
             Steps:
-                If head is empty, 
+                If head is empty,
                     - add node to the head
                 else:
                     - Check if the node exist using
@@ -38,7 +38,7 @@ class LinkedList:
                 self.head = node
             else:
                 # If the node exist we want to update the node at that spot using the new node value
-                self.update(node.key, node.value)
+                self.update_node(node.key, node.value)
 
     def find(self, key, value):
         '''
@@ -59,7 +59,7 @@ class LinkedList:
 
         return [False, None, None]
 
-    def update(self, key, value):
+    def update_node(self, key, value):
 
         node = self.head
 
@@ -71,58 +71,49 @@ class LinkedList:
 
             node = node.next
 
-    def delete(self):
-        pass
-
-    def contains(self, key):
+    def delete_node(self, key):
         if self.head == None:
-            return False
-        node = self.head
+            return "No Node in the Linked List"
 
-        while node:
-            if node.key == key:
-                return True
-            node = node.next
-        return False
+        linklist = self.head
+        linklist_copy = self.head
+
+        while linklist:
+
+            if linklist.key == key:
+                '''
+                    If we find the node we want to delete:
+                        1. Set the Linked List copy at that node to look at the next node in the original linked list
+                '''
+                linklist_copy = linklist.next
+                self.head = linklist_copy
+                return [1, "Node Deleted"]
+
+            linklist_copy = linklist
+            linklist = linklist.next
+
+        return [0, 'No node to delete']
 
 
 linklist = LinkedList()
 
 
-def test_contains():
-    linklist.insert_node(HashTableEntry(1, "Hello"))
-    linklist.insert_node(HashTableEntry(2, "World"))
-    linklist.insert_node(HashTableEntry(5, "Welcome"))
-    linklist.insert_node(HashTableEntry(10, "Isnt this amazing"))
+# def test_contains():
+#     linklist.insert_node(HashTableEntry(1, "Hello"))
+#     linklist.insert_node(HashTableEntry(2, "World"))
+#     linklist.insert_node(HashTableEntry(5, "Welcome"))
+#     linklist.insert_node(HashTableEntry(10, "Isnt this amazing"))
 
-    print(linklist.find(5, "some"))
-    linklist.insert_node(HashTableEntry(5, "New Welcome Welcome"))
-    print(linklist.find(5, "some"))
+#     print("Find 5, Should Return True", linklist.find(5, "some"))
+#     linklist.insert_node(HashTableEntry(5, "New Welcome Welcome"))
+#     print("Find 5, Should Return True", linklist.find(5, "some"))
+
+#     linklist.insert_node(HashTableEntry(20, "Added new Node"))
+#     print("Find 20, Should Return True", linklist.find(20, "Some"))
+#     print("Delete 10, Should Return 1", linklist.delete_node(10), 10)
+#     print("Delete 10, Should Return False", linklist.find(10, "Some"))
+#     print("Delete 20, Should Return 1", linklist.delete_node(20), 20)
+#     print("Find 5, Should Return False", linklist.find(20, "Some"))
 
 
-test_contains()
-
-
-# def test_delete_node():
-#     linklist.insert_node(10)
-#     linklist.insert_node(20)
-#     assertEqual(linklist.delete_node(), 10)
-#     assertFalse(linklist.contains(10))
-#     assertEqual(linklist.delete_node(), 20)
-#     assertFalse(linklist.contains(20))
-
-#     linklist.insert_node(10)
-#     assertEqual(linklist.delete_node(), 10)
-#     assertIsNone(linklist.head)
-#     assertIsNone(linklist.tail)
-#     assertIsNone(linklist.delete_node())
-
-# def test_get_max():
-#     .assertIsNone(.list.get_max())
-#     .list.insert_node(100)
-#     .assertEqual(.list.get_max(), 100)
-#     .list.insert_node(55)
-#     .assertEqual(.list.get_max(), 100)
-#     .list.insert_node(101)
-
-#     .assertEqual(.list.get_max(), 101)
+# test_contains()
