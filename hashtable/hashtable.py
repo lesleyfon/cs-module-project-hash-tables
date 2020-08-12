@@ -255,9 +255,8 @@ class HashTable:
             index = self.hash_index(all_key_value[i][0])
             if index:
                 self.put(all_key_value[i][0], all_key_value[i][1])
-        del all_key_value
 
-        # Your code here
+        del all_key_value
 
 
 if __name__ == "__main__":
