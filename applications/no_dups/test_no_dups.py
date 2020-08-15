@@ -9,6 +9,7 @@ class TestNoDups(unittest.TestCase):
         x = no_dups("")
         self.assertTrue(x == "")
         x = no_dups("hello")
+        print(x, "hello")
         self.assertTrue(x == "hello")
         x = no_dups("hello hello")
         self.assertTrue(x == "hello")

@@ -1,6 +1,14 @@
 def no_dups(s):
     # Your code here
 
+    s_c = ""
+    s = s.split()
+    for char in s:
+        if char not in s_c:
+            s_c += char + " "
+    s = s_c.strip()
+
+    return s
 
 
 if __name__ == "__main__":
